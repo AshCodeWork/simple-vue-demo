@@ -23,3 +23,9 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## 分支说明：
+
+one: elment form的简单实现
+
+two: vuex 和 router的简单实现。

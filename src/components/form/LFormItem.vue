@@ -40,7 +40,7 @@
                 let descriptor = {[field]:this.lForm.rules[field]}
                 let validator = new schema(descriptor);
                 
-                return validator.validate({ [field]: this.lForm.model[field]}, (errors, fields) => {
+                return validator.validate({ [field]: this.lForm.model[field]}, (errors) => {
                     console.log('error', errors)
                     if(errors && errors.length) {
                         this.error = errors[0].message;
