@@ -2,11 +2,6 @@ let Vue;
 
 class Store {
     constructor (options) {
-        this._vm = new Vue ({
-            data: {
-                $$state: options.state
-            }
-        })
         this._mutations = options.mutations;
         this._actions = options.actions;
 
@@ -15,23 +10,31 @@ class Store {
         function forEachValue (obj, fn) {
             Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
         }
-        function partial (fn, arg) {
-            return function () {
-              return fn(arg)
-            }
-        }
+        let store = this;
+        store.getters = {};
+
         forEachValue(options.getters, (fn, key) => {
             // use computed to leverage its lazy-caching mechanism
             // direct inline function use will lead to closure preserving oldVm.
             // using partial to return function with only arguments preserved in closure environment.
-            computed[key] = partial(fn, this);
-            Object.defineProperty(this.getters, key, {
-                get: function () { return this._vm[key]; },
+            computed[key] = function (fn, store) {
+                return function () {
+                    return fn(store.state, store.getters) 
+                }
+            }(fn, store);
+            Object.defineProperty(store.getters, key, {
+                get: () => store._vm[key],
                 enumerable: true // for local getters
             });
         })
-        this._vm.computed = computed
-       
+
+        this._vm = new Vue ({
+            data: {
+                $$state: options.state
+            },
+            computed: computed
+        })
+        console.log(this._vm)
 
         this.commit = this.commit.bind(this);
         this.dispatch = this.dispatch.bind(this);
