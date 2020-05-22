@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import ArrayPage from '../views/ArrayPage.vue'
+import BFC from '../views/BFC.vue'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,11 @@ const routes = [
     path: '/array_page',
     name: 'ArrayPage',
     component: ArrayPage
+  },
+  {
+    path: '/bfc',
+    name: 'BFC',
+    component: BFC
   }
 ]
 
